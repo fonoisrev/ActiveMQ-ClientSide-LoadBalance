@@ -1,0 +1,13 @@
+@startuml
+
+interface MessageListenerContainer {
+}
+abstract class AbstractMessageListenerContainer
+abstract class AbstractPollingMessageListenerContainer
+class DefaultMessageListenerContainer
+
+MessageListenerContainer <|-- AbstractMessageListenerContainer
+AbstractMessageListenerContainer <|-- AbstractPollingMessageListenerContainer
+AbstractPollingMessageListenerContainer <|-- DefaultMessageListenerContainer
+
+@enduml

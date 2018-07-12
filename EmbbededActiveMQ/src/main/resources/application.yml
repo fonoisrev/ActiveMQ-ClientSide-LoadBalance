@@ -1,4 +1,20 @@
 spring:
+  profiles:
+    active: multi
+
+---
+spring:
+  profiles: multi
+
+activemq:
+  loadbalance:
+    enabled: true
+    urls:
+      - tcp://localhost:61616
+      - tcp://localhost:61617
+
+---
+spring:
+  profiles: single
   activemq:
-    broker-url:
-      tcp://localhost:61616
+    broker-url: tcp://localhost:61616

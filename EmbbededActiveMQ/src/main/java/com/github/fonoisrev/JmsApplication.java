@@ -17,9 +17,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class JmsApplication {
     
-    @Value("${spring.activemq.broker-url}")
-    String url;
-    
     @Autowired
     JmsTemplate jmsTemplate;
     
@@ -53,5 +50,12 @@ public class JmsApplication {
         return broker;
     }
     
+    @Bean
+    public BrokerFactoryBean activemq2() throws Exception {
+        BrokerFactoryBean broker = new BrokerFactoryBean();
+        broker.setConfig(new ClassPathResource("activemq2.xml"));
+        broker.setStart(true);
+        return broker;
+    }
     
 }

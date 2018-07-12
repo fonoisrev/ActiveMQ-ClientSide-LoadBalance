@@ -1,0 +1,14 @@
+@startuml
+
+EnableJms -> JmsBootstrapConfiguration
+JmsBootstrapConfiguration -> JmsListenerAnnotationBeanPostProcessor : new
+JmsBootstrapConfiguration -> JmsListenerEndpointRegistry : new
+JmsListenerAnnotationBeanPostProcessor *--> JmsListenerEndpointRegistrar : new
+JmsListenerEndpointRegistrar <- JmsListenerConfigurer
+JmsListenerEndpointRegistrar *--> JmsListenerEndpointRegistry
+JmsListenerEndpointRegistrar *--> JmsListenerContainerFactory
+
+JmsListenerContainerFactory <|-- DefaultJmsListenerContainerFactory
+JmsAnnotationDrivenConfiguration -> DefaultJmsListenerContainerFactory : new
+
+@enduml
