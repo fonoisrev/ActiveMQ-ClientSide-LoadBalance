@@ -28,7 +28,7 @@ I implement this client-side load-balance machine base on spring-boot's activemq
    <dependency>
        <groupId>com.github.fonoisrev</groupId>
        <artifactId>spring-boot-starter-activemq-clientSideLoadBalance</artifactId>
-       <version>1.0-SNAPSHOT</version>
+       <version>1.0.0</version>
    </dependency>
    ```
 
