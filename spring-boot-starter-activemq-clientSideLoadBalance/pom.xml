@@ -6,20 +6,34 @@
 
     <groupId>com.github.fonoisrev</groupId>
     <artifactId>spring-boot-starter-activemq-clientSideLoadBalance</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.10.RELEASE</version>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
     </parent>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>1.5.10.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8
         </project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -43,6 +57,28 @@
         </dependency>
     </dependencies>
 
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
+    <scm>
+        <url>https://github.com/fonoisrev/ClientSide-LoadBalance-JmsTemplate/tree/master/spring-boot-starter-activemq-clientSideLoadBalance</url>
+        <connection>https://github.com/fonoisrev/ClientSide-LoadBalance-JmsTemplate.git</connection>
+        <developerConnection>https://github.com/fonoisrev/ClientSide-LoadBalance-JmsTemplate.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>fonoisrev</id>
+            <name>fonoisrev</name>
+            <email>wuhangdeyouxiang@126.com</email>
+            <url>https://github.com/fonoisrev</url>
+        </developer>
+    </developers>
 
 </project>

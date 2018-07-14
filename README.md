@@ -60,5 +60,5 @@ I implement this client-side load-balance machine base on spring-boot's activemq
 
 # How To 
 In short, I hack the Spring-Boot's autoConfiguration about ActiveMQ, do something before configure the *org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration*.
-More details are in the *spring-boot-starter-activemq-clientSideLoadBalance* folder. Or follow with my blog in [here](#).
+More details are in the *spring-boot-starter-activemq-clientSideLoadBalance* folder. Or follow with my blog in [here](https://www.jianshu.com/p/3f34ddf62044).
 
