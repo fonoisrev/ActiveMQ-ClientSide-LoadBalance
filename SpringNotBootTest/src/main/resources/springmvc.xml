@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+			http://www.springframework.org/schema/mvc 
+			http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd 
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!-- 配置包扫描 -->
+    <context:component-scan base-package="com.github.fonoisrev.controller"/>
+
+    <!-- mvc注解驱动 -->
+    <mvc:annotation-driven/>
+
+    <bean class="org.apache.activemq.xbean.BrokerFactoryBean" id="broker1">
+        <property name="config" value="classpath:activemq.xml"/>
+        <property name="start" value="true"/>
+    </bean>
+
+    <bean class="org.apache.activemq.xbean.BrokerFactoryBean" id="broker2">
+        <property name="config" value="classpath:activemq2.xml"/>
+        <property name="start" value="true"/>
+    </bean>
+
+    <!-- Config SharedMultiConnectionFactory -->
+    <bean class="com.github.fonoisrev.jms.connection.SharedMultiConnectionFactory"
+          id="sharedMultiConnectionFactory">
+        <constructor-arg name="urls">
+            <list>
+                <value>tcp://localhost:61616</value>
+                <value>tcp://localhost:61617</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- this is the LoadBalanceJmsConnectionFactory for JmsTemplate or JmsMessagingTemplate -->
+    <bean class="com.github.fonoisrev.jms.connection.LoadBalanceJmsConnectionFactory" id="loadBalanceJmsConnectionFactory">
+        <constructor-arg ref="sharedMultiConnectionFactory"/>
+    </bean>
+
+    <!-- this is the JmsMessagingTemplate or can replace with JmsTemplate -->
+    <bean class="org.springframework.jms.core.JmsMessagingTemplate" id="jmsMessagingTemplate">
+        <property name="connectionFactory" ref="loadBalanceJmsConnectionFactory"/>
+    </bean>
+
+    <!-- init your own MessageListener -->
+    <bean class="com.github.fonoisrev.listener.MyMessageListener" id="messageListener"/>
+
+    <!-- define MultiJmsMessageListenerContainer(s), it is the same as org.springframework.jms.listener.DefaultMessageListenerContainer -->
+    <bean class="com.github.fonoisrev.jms.container.MultiJmsMessageListenerContainer" id="container1">
+        <!--must set connectionFactory first-->
+        <property name="connectionFactory" ref="sharedMultiConnectionFactory"/>
+        <property name="destinationName" value="test"/>
+        <property name="messageListener" ref="messageListener"/>
+        <property name="concurrency" value="1-2"/>
+    </bean>
+
+</beans>

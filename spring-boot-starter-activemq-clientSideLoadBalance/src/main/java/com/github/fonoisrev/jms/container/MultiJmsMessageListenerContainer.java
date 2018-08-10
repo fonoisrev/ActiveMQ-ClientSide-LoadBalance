@@ -219,7 +219,6 @@ public class MultiJmsMessageListenerContainer extends AbstractMessageListenerCon
         super.setAutoStartup(autoStartup);
     }
     
-    // TODO
     public void setTaskExecutor(Executor taskExecutor) {
         getListenerContainers().forEach(lc -> lc.setTaskExecutor(taskExecutor));
     }
@@ -273,6 +272,12 @@ public class MultiJmsMessageListenerContainer extends AbstractMessageListenerCon
     public void setMessageSelector(String messageSelector) {
         getListenerContainers().forEach(lc -> lc.setMessageSelector(messageSelector));
         super.setMessageSelector(messageSelector);
+    }
+    
+    @Override
+    public void setMessageListener(Object messageListener) {
+        getListenerContainers().forEach(lc -> lc.setMessageListener(messageListener));
+        super.setMessageListener(messageListener);
     }
     
     @Override

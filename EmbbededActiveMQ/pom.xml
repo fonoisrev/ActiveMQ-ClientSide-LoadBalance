@@ -42,11 +42,11 @@
             <artifactId>activemq-spring</artifactId>
             <version>5.12.3</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-kahadb-store</artifactId>
-            <version>5.12.3</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.activemq</groupId>-->
+            <!--<artifactId>activemq-kahadb-store</artifactId>-->
+            <!--<version>5.12.3</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.github.fonoisrev</groupId>
