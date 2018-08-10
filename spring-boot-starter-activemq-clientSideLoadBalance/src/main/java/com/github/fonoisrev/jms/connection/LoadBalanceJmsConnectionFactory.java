@@ -43,7 +43,7 @@ public class LoadBalanceJmsConnectionFactory implements ConnectionFactory {
             CachingConnectionFactory cachingConnectionFactory =
                     new CachingConnectionFactory(factory);
             cachingConnectionFactory.setSessionCacheSize(10);
-            connectionFactoryMap.put(url, factory);
+            connectionFactoryMap.put(url, cachingConnectionFactory);
             validKeys.add(url);
         });
     }

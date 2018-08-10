@@ -3,6 +3,7 @@ package com.github.fonoisrev.jms.connection;
 import com.github.fonoisrev.jms.configuration.LoadBalanceActiveMQProperties;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.jms.connection.SingleConnectionFactory;
+import org.springframework.util.Assert;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -20,7 +21,11 @@ public class SharedMultiConnectionFactory implements ConnectionFactory {
     private Map<String, ConnectionFactory> connectionFactories = new HashMap<>();
     
     public SharedMultiConnectionFactory(LoadBalanceActiveMQProperties properties) {
-        List<String> urls = properties.getUrls();
+        this(properties.getUrls());
+    }
+    
+    public SharedMultiConnectionFactory(List<String> urls) {
+        Assert.notEmpty(urls,"activemq urls is empty");
         urls.forEach(url -> {
             ConnectionFactory factory =
                     new SingleConnectionFactory(new ActiveMQConnectionFactory(url));

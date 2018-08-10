@@ -35,12 +35,6 @@ public class MultiJmsMessageListenerContainerFactory
     
     private BackOff backOff;
     
-    private LoadBalanceActiveMQProperties loadBalanceActiveMQProperties;
-    
-    public MultiJmsMessageListenerContainerFactory(LoadBalanceActiveMQProperties properties) {
-        this.loadBalanceActiveMQProperties = properties;
-    }
-    
     /**
      * @see MultiJmsMessageListenerContainer#setTaskExecutor
      */
@@ -145,7 +139,7 @@ public class MultiJmsMessageListenerContainerFactory
     
     @Override
     protected MultiJmsMessageListenerContainer createContainerInstance() {
-        return new MultiJmsMessageListenerContainer(this.loadBalanceActiveMQProperties);
+        return new MultiJmsMessageListenerContainer();
     }
     
 }

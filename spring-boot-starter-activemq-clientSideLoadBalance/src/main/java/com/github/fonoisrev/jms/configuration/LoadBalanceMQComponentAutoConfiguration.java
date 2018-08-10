@@ -17,7 +17,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.destination.DestinationResolver;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -36,9 +35,6 @@ import javax.jms.ConnectionFactory;
 @ConditionalOnProperty(name = "activemq.loadbalance.enabled", havingValue = "true")
 @EnableConfigurationProperties(LoadBalanceActiveMQProperties.class)
 public class LoadBalanceMQComponentAutoConfiguration {
-    
-    @Autowired
-    LoadBalanceActiveMQProperties activeMQProperties;
     
     @Bean
     public SharedMultiConnectionFactory sharedMultiConnectionFactory(
@@ -80,7 +76,7 @@ public class LoadBalanceMQComponentAutoConfiguration {
             MultiJmsMessageListenerContainerFactoryConfigrer configurer,
             @Qualifier("sharedMultiConnectionFactory") ConnectionFactory connectionFactory) {
         MultiJmsMessageListenerContainerFactory factory =
-                new MultiJmsMessageListenerContainerFactory(activeMQProperties);
+                new MultiJmsMessageListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
         return factory;
     }

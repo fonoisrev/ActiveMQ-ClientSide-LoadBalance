@@ -1,6 +1,5 @@
 package com.github.fonoisrev.jms.container;
 
-import com.github.fonoisrev.jms.configuration.LoadBalanceActiveMQProperties;
 import com.github.fonoisrev.jms.connection.SharedMultiConnectionFactory;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.config.AbstractJmsListenerContainerFactory;
@@ -19,7 +18,10 @@ import org.springframework.util.backoff.BackOff;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -51,11 +53,6 @@ public class MultiJmsMessageListenerContainer extends AbstractMessageListenerCon
      * Multi-DefaultMessageListenerContainer holder
      */
     private final Map<String, DefaultMessageListenerContainer> listenerContainers = new HashMap<>();
-    
-    public MultiJmsMessageListenerContainer(LoadBalanceActiveMQProperties properties) {
-        List<String> urls = properties.getUrls();
-        urls.forEach(url -> listenerContainers.put(url, new DefaultMessageListenerContainer()));
-    }
     
     private Collection<DefaultMessageListenerContainer> getListenerContainers() {
         return Collections.unmodifiableCollection(listenerContainers.values());
@@ -137,14 +134,16 @@ public class MultiJmsMessageListenerContainer extends AbstractMessageListenerCon
                     "MultiJmsMessageListenerContainer need connectionFactory with type " +
                     "SharedMultiConnectionFactory");
         }
-        // todo
         
         Map<String, ConnectionFactory> allConnectionFactory =
                 ((SharedMultiConnectionFactory) connectionFactory).getConnectionFactories();
-        listenerContainers.forEach((url, container) -> {
-            ConnectionFactory factory = allConnectionFactory.get(url);
-            Assert.notNull(factory, url + " has no match ConnectionFactory");
-            container.setConnectionFactory(factory);
+        allConnectionFactory.forEach((url, factory) -> {
+            if (!listenerContainers.containsKey(url)) {
+                listenerContainers.put(url, new DefaultMessageListenerContainer());
+            }
+            DefaultMessageListenerContainer defaultMessageListenerContainer =
+                    listenerContainers.get(url);
+            defaultMessageListenerContainer.setConnectionFactory(factory);
         });
     }
     
@@ -297,5 +296,5 @@ public class MultiJmsMessageListenerContainer extends AbstractMessageListenerCon
     protected void doInitialize() throws JMSException {
     }
     
-
+    
 }
